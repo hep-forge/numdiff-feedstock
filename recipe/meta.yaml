@@ -15,8 +15,12 @@ package:
 source:
   # conda-forge's own numdiff-feedstock never publishes a linux-aarch64
   # build (CI coverage gap, not a technical one -- pure C, autotools,
-  # no arch-specific code); same upstream tarball/hash it uses.
-  url: "https://download.savannah.gnu.org/releases/numdiff/numdiff-{{ version }}.tar.gz"
+  # no arch-specific code); same upstream tarball/hash it uses. Using
+  # conda-forge's exact source URL rather than the savannah.gnu.org
+  # redirector: that one served a DIFFERENT (mismatching-sha256) mirror
+  # to GitHub's arm64 runner than to amd64/local, so it's routing
+  # clients to inconsistent mirrors depending on network path.
+  url: "http://nongnu.askapache.com/numdiff/numdiff-{{ version }}.tar.gz"
   {% if versions.get(version, None) %}
   sha256: {{ versions.get(version) }}
   {% endif %}
