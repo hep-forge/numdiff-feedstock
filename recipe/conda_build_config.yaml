@@ -8,5 +8,3 @@ c_stdlib_version:
 
 c_compiler:
   - gcc
-cxx_compiler:
-  - gxx

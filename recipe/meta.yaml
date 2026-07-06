@@ -1,5 +1,5 @@
 {% set versions = {
-    "0.0.0": "REPLACE_WITH_SHA256"
+    "5.9.0": "87284a117944723eebbf077f857a0a114d818f8b5b54d289d59e73581194f5ef"
 } %}
 
 {% set version = environ.get('COMMIT_VERSION', None) %}
@@ -13,7 +13,10 @@ package:
   version: {{ environ.get('ANACONDA_VERSION', version)|replace("-", ".") }}
 
 source:
-  url: "https://www.nongnu.org/numdiff//archive/refs/tags/{{ version }}.tar.gz"   # TODO: confirm upstream's actual tag/tarball naming
+  # conda-forge's own numdiff-feedstock never publishes a linux-aarch64
+  # build (CI coverage gap, not a technical one -- pure C, autotools,
+  # no arch-specific code); same upstream tarball/hash it uses.
+  url: "https://download.savannah.gnu.org/releases/numdiff/numdiff-{{ version }}.tar.gz"
   {% if versions.get(version, None) %}
   sha256: {{ versions.get(version) }}
   {% endif %}
@@ -26,18 +29,19 @@ build:
 requirements:
   build:
     - {{ compiler('c') }}
-    - {{ compiler('cxx') }}
     - {{ stdlib('c') }}
-    - cmake
     - make
   host:
-    # TODO: library dependencies
+    - gmp
+    - gettext
   run:
-    # TODO: runtime dependencies
+    - gmp
+    - gettext
 
 test:
   commands:
-    - echo "TODO: a real smoke test"
+    - numdiff --version
+    - test -f ${PREFIX}/bin/numdiff
 
 about:
   home: "https://www.nongnu.org/numdiff/"
