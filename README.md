@@ -11,6 +11,16 @@ Builds linux-amd64 + linux-arm64 in one matrix workflow and uploads to the
 
 Numeric-aware diff tool for comparing files with small numeric differences
 
+## Architectures
+
+| Architecture | Latest published |
+|--------------|------------------|
+| linux-amd64 (`linux-64`) | ✅ `5.9.0` |
+| linux-arm64 (`linux-aarch64`) | ✅ `5.9.0` |
+
+_As of the last feedstock render; the badges above are live._
+
+
 ## Install
 
 ```bash
@@ -20,3 +30,4 @@ conda install -c hep-forge -c conda-forge numdiff
 ## Maintainers
 
 * [@meiyasan](https://github.com/meiyasan/)
+
