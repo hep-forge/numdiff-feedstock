@@ -7,7 +7,14 @@ set -e
 # than patch upstream source.
 export CFLAGS="${CFLAGS} -std=gnu11"
 
-./configure --prefix="${PREFIX}"
+# macOS: no native-language support. With it numdiff links libintl, and its
+# osx-arm64 build took libintl 1.x while the ROOT/xFitter stack there holds
+# libintl < 1.0, so xfitter could not install both.
+EXTRA_ARGS=()
+if [[ "$(uname)" == "Darwin" ]]; then
+  EXTRA_ARGS+=(--disable-nls)
+fi
+./configure --prefix="${PREFIX}" "${EXTRA_ARGS[@]}"
 
 NPROC=$(nproc 2>/dev/null || sysctl -n hw.ncpu)
 make -j"$NPROC"

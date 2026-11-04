@@ -38,10 +38,10 @@ requirements:
     - make
   host:
     - gmp
-    - gettext
+    - gettext  # [linux]
   run:
     - gmp
-    - gettext
+    - gettext  # [linux]
 
 test:
   commands:
